@@ -1,0 +1,8 @@
+<p>Hello</p>
+<div><a href="{% url 'mgblog:plan_form'%}">Plan_Form</a></div>
+{% for c in client %}
+<div>{{c.name}}</div>
+<div>
+  <a href="{% url 'mgblog:breif' clientId=c.id %}">Breif</a>
+</div>
+{% endfor %}
