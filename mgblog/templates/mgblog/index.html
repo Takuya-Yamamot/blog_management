@@ -1,4 +1,9 @@
-<p>Hello</p>
+{% if user.is_authenticated %}
+<p>Hello,{{user.username}}</p>
+<a href="{% url 'mgblog:logged_out' %}">Log out</a>
+{% else %}
+<a href="{% url 'mgblog:login' %}">Log in</a>
+{% endif %}
 <div><a href="{% url 'mgblog:plan_form'%}">Plan_Form</a></div>
 {% for c in client %}
 <div>{{c.name}}</div>
