@@ -13,7 +13,7 @@ class Client(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.name or ''
+        return self.name or ""
 
 
 class Breif(models.Model):
@@ -34,7 +34,7 @@ class Breif(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.title or ''
+        return self.title or ""
 
 
 class PlanOverView(models.Model):
@@ -45,8 +45,7 @@ class PlanOverView(models.Model):
     plan_num = models.IntegerField(blank=False)
 
     def __str__(self):
-        self.client_name = self.client
-        return self.client_name or ''
+        return str(self.id)
 
     def save(self, *args, **kwargs):
         is_new = self.pk is None
@@ -67,7 +66,7 @@ class Plan(models.Model):
     client_name = models.CharField(max_length=50)
     author = models.CharField(max_length=1000)
     plan_overview = models.ForeignKey(
-        "PlanOverView", on_delete=models.CASCADE
+        "PlanOverView", on_delete=models.CASCADE, null=True
     )
     client_creative_brief = models.ForeignKey(
         "Breif", on_delete=models.CASCADE
@@ -92,10 +91,16 @@ class Plan(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.client_name or ''
+        return self.client_name or ""
 
 
 class PlanOverViewForm(ModelForm):
     class Meta:
         model = PlanOverView
-        exclude = ['client_name']
+        exclude = ["client_name"]
+
+
+class BreifForm(ModelForm):
+    class Meta:
+        model = Breif
+        fields = "__all__"

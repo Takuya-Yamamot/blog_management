@@ -1,13 +1,36 @@
-{% if user.is_authenticated %}
-<p>Hello,{{user.username}}</p>
-<a href="{% url 'mgblog:logged_out' %}">Log out</a>
-{% else %}
-<a href="{% url 'mgblog:login' %}">Log in</a>
-{% endif %}
-<div><a href="{% url 'mgblog:plan_form'%}">Plan_Form</a></div>
-{% for c in client %}
-<div>{{c.name}}</div>
-<div>
-  <a href="{% url 'mgblog:breif' clientId=c.id %}">Breif</a>
-</div>
-{% endfor %}
+<!DOCTYPE html>
+<body>
+  {% if user.is_authenticated %}
+  <p>Hello,{{user.username}}</p>
+  <a href="{% url 'mgblog:logged_out' %}">Log out</a>
+  {% else %}
+  <a href="{% url 'mgblog:login' %}">Log in</a>
+  {% endif %}
+  <div><a href="{% url 'mgblog:plan_form'%}">Take task and make plans</a></div>
+  <div><a href="{% url 'mgblog:breif_form'%}">Breif_Form</a></div>
+
+  <table>
+    <tr>
+      <th>Client</th>
+      <th>Breif</th>
+      <th>Plan</th>
+      <th>Task Taker</th>
+    </tr>
+    {% for c in client %}
+    <tr>
+      <td>{{c.name}}</td>
+      {% for b in breif %}
+      {% if b.client.id == c.id %}
+      <td><a href="{% url 'mgblog:breif' clientId=c.id %}">Breif</a></td>
+      {% endif %}
+      {% endfor %}
+      {% for p in plan_over %}
+      {% if p.client.id == c.id %}
+      <td><a href="{% url 'mgblog:plan_lists' clientId=c.id %}">Plan_list</a></td>
+      <td>{{ p.author }}</td>
+      {% endif %}
+      {% endfor %}
+    </tr>
+    {% endfor %}
+  </table>
+</body>
